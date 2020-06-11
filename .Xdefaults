@@ -1,0 +1,61 @@
+!
+xterm*loginshell: true
+xterm.titleBar: false
+xterm*cursorColor:   Red
+xterm*fullCursor:    true
+xterm*scrollBar:     false
+xterm*saveLines:     10000
+xterm*loginShell:    true
+xterm.ttyModes:  dec
+xterm*charClass: 33:48,35:48,37:48,43:48,45-47:48,64:48,95:48,126:48
+
+*VT100*translations:    #override \n\
+    Ctrl <KeyPress> Insert: copy-selection(CLIPBOARD) \n\
+    Shift <KeyPress> Insert: insert-selection(CLIPBOARD)
+
+!fonts&stuff
+xterm*faceSize: 11
+xterm*eightBitInput: false
+XTerm*faceName: Bitstream Vera Serif Mono
+
+!Background & foreground
+XTerm*background: #002B36
+XTerm*foreground: #D2D2D2
+XTerm*borderColor: #343434
+
+!Turning off scrollbar
+XTerm*scrollBar:  off
+
+!Colors
+!-------------------------
+!black
+XTerm*color0: #222222
+XTerm*color8: #454545
+
+!red
+XTerm*color1: #9E5641
+XTerm*color9: #CC896D
+
+!green
+XTerm*color2: #6C7E55
+XTerm*color10: #C4DF90
+
+!yellow
+XTerm*color3: #CAAF2B
+XTerm*color11: #FFE080
+
+!blue
+XTerm*color4: #7FB8D8
+XTerm*color12: #B8DDEA
+
+!magenta
+XTerm*color5: #956D9D
+XTerm*color13: #C18FCB
+
+!cyan
+XTerm*color6: #4c8ea1
+XTerm*color14: #6bc1d0
+
+!white
+XTerm*color7: #808080
+XTerm*color15: #cdcdcd
