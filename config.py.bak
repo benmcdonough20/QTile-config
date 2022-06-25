@@ -27,7 +27,7 @@
 from typing import List  # noqa: F401
 
 from libqtile import bar, layout, widget
-from libqtile.config import Click, Drag, Group,  Match, Screen, ScratchPad, DropDown
+from libqtile.config import Click, Drag, Group,  Match, Screen
 from libqtile.config import EzKey as Key
 from libqtile.lazy import lazy
 
@@ -48,8 +48,6 @@ Key.modifier_keys = {
 }
 
 keys = [
-    Key("M-a", lazy.group['scratchpad'].dropdown_toggle('term')),
-
     Key("M-h", lazy.layout.left()),
     Key("M-l", lazy.layout.right()),
     Key("M-j", lazy.layout.down()),
@@ -65,9 +63,7 @@ keys = [
     Key("M-C-h", lazy.layout.grow_left()),
     Key("M-C-l", lazy.layout.grow_right()),
     Key("M-C-j", lazy.layout.grow_down()),
-    Key("M-A-j", lazy.layout.increase_ratio()),
     Key("M-C-k", lazy.layout.grow_up()),
-    Key("M-A-k", lazy.layout.decrease_ratio()),
     Key("M-n", lazy.layout.normalize()),
 
     # Toggle between split and unsplit sides of stack.
@@ -77,10 +73,8 @@ keys = [
     Key("M-<Up>", lazy.next_layout()),
 
     #OS commands
-    #Key("M-d", lazy.spawn("rofi -show run -theme ~/colors-rofi-dark.rasi")),
-    Key("M-d", lazy.spawn("rofi -show run -theme /usr/share/rofi/themes/Arc.rasi")),
-    #Key("M-w", lazy.spawn("rofi -show window -theme ~/colors-rofi-dark.rasi")),
-    Key("M-w", lazy.spawn("rofi -show window -theme /usr/share/rofi/themes/Arc.rasi")),
+    Key("M-d", lazy.spawn("rofi -show run -theme ~/colors-rofi-dark.rasi")),
+    Key("M-w", lazy.spawn("rofi -show window -theme ~/colors-rofi-dark.rasi")),
     Key("M-S-q", lazy.window.kill()),
     Key("M-C-r", lazy.restart()),
     Key("M-C-q", lazy.shutdown()),
@@ -108,8 +102,7 @@ keys = [
     Key("C-A-<space>", lazy.spawn("dunstctl close-all")),
 ]
 
-
-groups=[Group(i) for i in "123456789"]
+groups = [Group(i) for i in "123456789"]
 
 for i in groups:
     keys.extend([
@@ -124,7 +117,6 @@ for i in groups:
         #     desc="move focused window to group {}".format(i.name)),
     ])
 
-groups.append(ScratchPad("ranger", [DropDown("file manager", "urxvt -hold -e 'ranger'",x=0.05, y=0.4, width=0.9, height=0.6, opacity=0.9, on_focus_lost_hide=True)]))
 #Define colors
 background = "#282c34"
 foreground = "#dcdfe4"
@@ -140,13 +132,9 @@ white = '#bcbabe'
 layouts = [
     layout.Columns(border_focus = "#514b57",
         border_normal = background,
-        #margin = 6,
+        margin = 6,
         border_width=1),
     layout.Max(),
-    layout.Tile(border_focus = "#514b57",
-        borner_normal = background,
-        #margin = 6,
-        border_width = 1)
 ]
 
 widget_defaults = dict(
@@ -191,7 +179,7 @@ screens = [
             [
                 widget.Prompt(background = red, foreground = background),
                 widget.GroupBox(
-                            highlight_method = 'block',
+                    highlight_method = 'block',
                             rounded = False,
                             block_highlight_text_color = background,
                             this_current_screen_border = foreground,
@@ -200,41 +188,44 @@ screens = [
                             other_current_screen_border = blue,
                             this_screen_border = foreground,
                     ),
-                widget.WindowName(max_chars = 70),
+                widget.WindowName(),
                 widget.CPU(format = ' 龍 {freq_current}GHz {load_percent}%',
+                    foreground = green,
                     ),
-                widget.TextBox(' '),
+                widget.TextBox(' ', foreground = blue),
                 widget.ThermalSensor(threshold = 85,
+                    foreground = blue,
                 ),
                 widget.Memory(
                     format = ' {MemUsed: .2f}{mm}',
                     measure_mem = 'G',
+                    foreground = yellow,
                     ),
                 widget.Clock(format='  %I:%M %p',
-                    ),
+                    foreground = cyan),
                 widget.Battery(format = ' {char}{percent: 2.0%}',
                    charge_char = '',
                    discharge_char = '',
                    empty_char = '',
                    full_char = '',
                    show_short_text = False,
+                   foreground = magenta,
                    ),
                 widget.Backlight(
                     format = '  {percent:2.0%}',
                     backlight_name = 'intel_backlight',
+                    foreground = red,
                     ),
-                widget.Sep(linewidth=0,padding=10,foreground=cyan),
                 widget.Systray(),
             ],
-            30,
-            ),
+            22),
              top = bar.Bar([widget.TaskList(
                 title_width_method = 'uniform',
-                #markup=True,
+                markup=True,
                 highlight_method = 'block',
-                #markup_focused = "<span foreground=\"black\">{}</span>",
-                icon_size = 0,
-                border ="#3b404c",
+                markup_focused = "<span foreground=\"black\">{}</span>",
+                icon_size = 18,
+                border = foreground,
                 rounded= False,
                 txt_minimized = " ",
                 )],22)
@@ -246,17 +237,17 @@ if num_monitors > 1:
     for m in range(num_monitors-1):
         screens.append(
                 Screen(
-                    top = bar.Bar([widget.TaskList(
-                title_width_method = 'uniform',
-                #markup=True,
-                highlight_method = 'block',
-                #markup_focused = "<span foreground=\"black\">{}</span>",
-                icon_size = 0,
-                border ="#3b404c",
-                rounded= False,
-                txt_minimized = " ",
-                )],22),
-                bottom = bar.Bar(
+                    top = bar.Bar(
+                        [widget.TaskList(
+                            title_width_method = 'uniform',
+                            markup=True,
+                            highlight_method = 'block',
+                            markup_focused = "<span foreground=\"black\">{}</span>",
+                            icon_size = 18,
+                            border = foreground,
+                            rounded= False,
+                            txt_minimized = " ")], 24),
+                    bottom = bar.Bar(
                         [widget.Prompt(background = red, foreground = background),
                         widget.GroupBox(
                             highlight_method = 'block',
@@ -268,7 +259,7 @@ if num_monitors > 1:
                             other_current_screen_border = blue,
                             this_screen_border = foreground,
                     ),
-                        widget.WindowName()], 30)
+                        widget.WindowName()], 24)
                     )
                 )
 
@@ -297,9 +288,7 @@ floating_layout = layout.Floating(float_rules=[
     Match(title='pinentry'),  # GPG key password entry
     Match(wm_class='blueman-manager'),
     Match(wm_class='pavucontrol'),
-],
-border_focus = "#514b57",
-border_normal = background)
+])
 auto_fullscreen = True
 focus_on_window_activation = "smart"
 reconfigure_screens = True
